@@ -90,12 +90,12 @@ public class Grid implements Iterable<Cell> {
 
 
     // TODO: Écrire une version correcte de cette méthode.
-    public List<Cell> getNeighbours(int rowIndex, int columnIndex) {
+    public List<Cell> getNeighbors(int rowIndex, int columnIndex) {
         return null;
     }
 
     // TODO: Écrire une version correcte de cette méthode.
-    public int countAliveNeighbours(int rowIndex, int columnIndex) {
+    public int countAliveNeighbors(int rowIndex, int columnIndex) {
         return 0;
     }
 

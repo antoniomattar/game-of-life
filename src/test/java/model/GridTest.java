@@ -2,8 +2,8 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GridTest {
   private Grid grid;
@@ -14,27 +14,25 @@ public class GridTest {
   }
 
   @Test
-  public void testGetNeighbours(){
-    assertThat(grid.getNeighbours(1,1), is(notNullValue()));
-    assertThat(grid.getNeighbours(1,1), hasSize(equalTo(8)));
-    assertThat(grid.getNeighbours(1,1),
-            containsInAnyOrder(grid.getCell(0,0),
+  public void testGetNeighbors(){
+    assertThat(grid.getNeighbors(1,1)).isNotNull();
+    assertThat(grid.getNeighbors(1,1)).hasSize(8);
+    assertThat(grid.getNeighbors(1,1))
+            .containsExactlyInAnyOrder(grid.getCell(0,0),
                     grid.getCell(0,1),
                     grid.getCell(0,2),
                     grid.getCell(1,0),
                     grid.getCell(1,2),
                     grid.getCell(2,0),
                     grid.getCell(2,1),
-                    grid.getCell(2,2)));
+                    grid.getCell(2,2));
   }
 
   @Test
-  public void testCountAliveNeighbours(){
-    assertThat(grid.countAliveNeighbours(1,1), is(equalTo(0)));
+  public void testCountAliveNeighbors(){
+    assertThat(grid.countAliveNeighbors(1,1)).isEqualTo(0);
     grid.getCell(2,2).setState(CellState.ALIVE);
     grid.getCell(0,0).setState(CellState.ALIVE);
-    assertThat(grid.countAliveNeighbours(1,1), is(equalTo(2)));
+    assertThat(grid.countAliveNeighbors(1,1)).isEqualTo(2);
   }
-
-
 }
