@@ -131,7 +131,7 @@ public class Grid implements Iterable<Cell> {
      * </ul>
      */
     // TODO: Écrire une version correcte de cette méthode.
-    void updateToNextGeneration() {
+    public void updateToNextGeneration() {
 
     }
 
@@ -139,7 +139,7 @@ public class Grid implements Iterable<Cell> {
      * Sets all {@link Cell}s in this {@code Grid} as dead.
      */
     // TODO: Écrire une version correcte de cette méthode.
-    void clear() {
+    public void clear() {
 
     }
 
@@ -150,7 +150,7 @@ public class Grid implements Iterable<Cell> {
      * @throws NullPointerException if {@code random} is {@code null}.
      */
     // TODO: Écrire une version correcte de cette méthode.
-    void randomGeneration(Random random) {
+    public void randomGeneration(Random random) {
 
     }
 }
