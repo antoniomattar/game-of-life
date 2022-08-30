@@ -31,15 +31,6 @@ public class Cell {
     }
 
     /**
-     * Sets the state of this {@link Cell} to an arbitrary alive state.
-     */
-
-    public void setAlive() {
-        getStateProperty().setValue(CellState.ALIVE);
-    }
-
-
-    /**
      * Returns the current state of this {@link Cell}.
      *
      * @return the current state of this {@link Cell}
