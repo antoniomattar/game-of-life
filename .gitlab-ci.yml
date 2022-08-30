@@ -25,9 +25,9 @@ build:
       - build
       - .gradle
 
-test:
+java:
   stage: test
-  script: ./gradlew check
+  script: ./gradlew test
   artifacts:
     when: always
     reports:
