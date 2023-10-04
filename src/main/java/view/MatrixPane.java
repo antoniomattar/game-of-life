@@ -1,5 +1,6 @@
 package view;
 
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
@@ -25,7 +26,7 @@ public class MatrixPane extends GridPane{
         Rectangle rectangleCell = new Rectangle(CELL_SIZE, CELL_SIZE);
         addStatePropertyListener(cell, rectangleCell);
         updateFill(rectangleCell, cell.getState());
-        addClickEventHandler(cell, rectangleCell);
+        addEventHandler(cell, rectangleCell);
         add(rectangleCell, columnIndex, rowIndex);
     }
 
@@ -38,7 +39,37 @@ public class MatrixPane extends GridPane{
         cellRectangle.setFill(newCellState.color);
     }
 
-    private void addClickEventHandler(Cell cell, Rectangle cellRectangle) {
-        cellRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> cell.toggleState());
+    private void addEventHandler(Cell cell, Rectangle cellRectangle) {
+        cellRectangle.addEventHandler(
+                MouseEvent.MOUSE_PRESSED,
+                event -> mouseListener.onMousePressed(event, cell)
+        );
+        cellRectangle.addEventHandler(
+                MouseEvent.DRAG_DETECTED,
+                event -> {
+                    System.out.println("Full drag start");
+                    this.startFullDrag();
+                }
+        );
+        cellRectangle.addEventHandler(
+                MouseDragEvent.MOUSE_DRAG_RELEASED,
+                event -> mouseListener.onMouseReleased(event, cell)
+        );
+        cellRectangle.addEventHandler(
+                MouseDragEvent.MOUSE_DRAG_ENTERED,
+                event -> mouseListener.onMouseEntered(event, cell)
+        );
+    }
+
+    private MouseListener mouseListener = new WaitingMouseListener(this);
+
+    void setMouseListener(MouseListener mouseListener) {
+        System.out.println("Change listener");
+        this.mouseListener = mouseListener;
+    }
+
+    void resetWaitingListener() {
+        System.out.println("Reset listener");
+        this.mouseListener = new WaitingMouseListener(this);
     }
 }
