@@ -5,8 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.GameOfLife;
-import model.Grid;
+import model.CellGrid;
+import model.CellularAutomataSimulation;
+import model.GameOfLifeState;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,7 +26,7 @@ public class GameOfLifeApplication extends Application {
   private static final String APP_NAME = "Game of Life";
   private static final String VIEW_RESOURCE_PATH = "/view/view.fxml";
 
-  private final GameOfLife gameOfLife;
+  private final CellularAutomataSimulation<GameOfLifeState> gameOfLife;
   private Stage primaryStage;
   private Parent view;
 
@@ -33,17 +34,21 @@ public class GameOfLifeApplication extends Application {
    * Creates a new {@code GameOfLifeApplication} instance.
    */
   public GameOfLifeApplication() {
-    this(new GameOfLife(new Grid(NUMBER_OF_ROWS, NUMBER_OF_COLUMNS)));
+    this(new CellularAutomataSimulation<GameOfLifeState>(
+            new CellGrid<>(NUMBER_OF_COLUMNS, NUMBER_OF_ROWS, GameOfLifeState.ALIVE),
+            GameOfLifeState.DEAD,
+            GameOfLifeState::random
+    ));
   }
 
   /**
-   * Creates a new {@code GameOfLifeApplication} instance given a {@link GameOfLife} instance.
+   * Creates a new {@code GameOfLifeApplication} instance given a {@link CellularAutomataSimulation} instance.
    *
-   * @param gameOfLife the {@link GameOfLife} instance
+   * @param cellularAutomataSimulation the {@link CellularAutomataSimulation} instance
    * @throws NullPointerException if {@code gameOfLife} is {@code null}
    */
-  private GameOfLifeApplication(GameOfLife gameOfLife) {
-    this.gameOfLife = requireNonNull(gameOfLife, "game of life is null");
+  private GameOfLifeApplication(CellularAutomataSimulation<GameOfLifeState> cellularAutomataSimulation) {
+    this.gameOfLife = requireNonNull(cellularAutomataSimulation, "game of life is null");
   }
 
   @Override
@@ -67,7 +72,7 @@ public class GameOfLifeApplication extends Application {
     loader.setLocation(location);
     view = loader.load();
     Controller controller = loader.getController();
-    controller.setGameOfLife(gameOfLife);
+    controller.setSimulation(gameOfLife);
   }
 
 

@@ -1,8 +1,7 @@
 package view;
 
+import datastruct.Coordinate;
 import javafx.scene.input.MouseEvent;
-import model.Cell;
-import model.CellState;
 
 class WaitingMouseListener implements MouseListener {
 
@@ -14,9 +13,8 @@ class WaitingMouseListener implements MouseListener {
     }
 
     @Override
-    public void onMousePressed(MouseEvent event, Cell cell) {
-        cell.toggleState();
-        CellState cellState = cell.getState();
-        matrix.setMouseListener(new FillingMouseListener(this.matrix, cellState));
+    public void onMousePressed(MouseEvent event, Coordinate coord) {
+       this.matrix.getController().getSimulation().next(coord);
+        matrix.setMouseListener(new FillingMouseListener(this.matrix, coord));
     }
 }

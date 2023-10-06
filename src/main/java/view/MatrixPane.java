@@ -1,75 +1,82 @@
 package view;
 
+import controller.Controller;
+import datastruct.Coordinate;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import model.Cell;
-import model.CellState;
-import model.Grid;
 
 /**
  * Created by Arnaud Labourel on 22/11/2018.
  */
-public class MatrixPane extends GridPane{
+public class MatrixPane extends GridPane {
     private static final double CELL_SIZE = 14;
 
-    public void initialize(Grid grid) {
-        for (int rowIndex = 0; rowIndex < grid.getNumberOfRows(); rowIndex++) {
-            for (int columnIndex = 0; columnIndex < grid.getNumberOfColumns(); columnIndex++) {
-                addCellRectangle(grid.getCell(rowIndex,columnIndex), rowIndex, columnIndex);
-            }
+    public Controller getController() {
+        return controller;
+    }
+
+    private Controller controller;
+
+    public void initialize(Controller controller) {
+        this.controller = controller;
+        for (Coordinate coordinate : controller.coordinates()) {
+            addCellRectangle(coordinate);
         }
     }
 
-    private void addCellRectangle(Cell cell, int rowIndex, int columnIndex) {
+    private void addCellRectangle(Coordinate coord) {
         Rectangle rectangleCell = new Rectangle(CELL_SIZE, CELL_SIZE);
-        addStatePropertyListener(cell, rectangleCell);
-        updateFill(rectangleCell, cell.getState());
-        addEventHandler(cell, rectangleCell);
-        add(rectangleCell, columnIndex, rowIndex);
+        addStatePropertyListener(rectangleCell, coord);
+        updateFill(rectangleCell, coord);
+        addEventHandler(rectangleCell, coord);
+        add(rectangleCell, coord);
     }
 
-    private void addStatePropertyListener(Cell cell, Rectangle cellRectangle) {
-        cell.getStateProperty().addListener((observable, oldValue, newValue) ->
-                updateFill(cellRectangle, newValue));
+    private void add(Rectangle rectangleCell, Coordinate coord) {
+        this.add(rectangleCell, coord.x(), coord.y());
     }
 
-    private void updateFill(Rectangle cellRectangle, CellState newCellState) {
-        cellRectangle.setFill(newCellState.color);
+    private void addStatePropertyListener(Rectangle cellRectangle, Coordinate coord) {
+        controller.getSimulation().setChangeListener(
+                coord,
+                () -> updateFill(cellRectangle, coord)
+        );
     }
 
-    private void addEventHandler(Cell cell, Rectangle cellRectangle) {
+    private void updateFill(Rectangle cellRectangle, Coordinate coord) {
+        Color color = this.controller.getSimulation().getColor(coord);
+        cellRectangle.setFill(color);
+    }
+
+    private void addEventHandler(Rectangle cellRectangle, Coordinate coord) {
         cellRectangle.addEventHandler(
                 MouseEvent.MOUSE_PRESSED,
-                event -> mouseListener.onMousePressed(event, cell)
+                event -> mouseListener.onMousePressed(event, coord)
         );
         cellRectangle.addEventHandler(
                 MouseEvent.DRAG_DETECTED,
-                event -> {
-                    System.out.println("Full drag start");
-                    this.startFullDrag();
-                }
+                event -> this.startFullDrag()
         );
         cellRectangle.addEventHandler(
                 MouseDragEvent.MOUSE_DRAG_RELEASED,
-                event -> mouseListener.onMouseReleased(event, cell)
+                event -> mouseListener.onMouseReleased(event, coord)
         );
         cellRectangle.addEventHandler(
                 MouseDragEvent.MOUSE_DRAG_ENTERED,
-                event -> mouseListener.onMouseEntered(event, cell)
+                event -> mouseListener.onMouseEntered(event, coord)
         );
     }
 
     private MouseListener mouseListener = new WaitingMouseListener(this);
 
     void setMouseListener(MouseListener mouseListener) {
-        System.out.println("Change listener");
         this.mouseListener = mouseListener;
     }
 
     void resetWaitingListener() {
-        System.out.println("Reset listener");
         this.mouseListener = new WaitingMouseListener(this);
     }
 }

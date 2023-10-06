@@ -1,13 +1,12 @@
 package view;
 
-import javafx.event.EventType;
+import datastruct.Coordinate;
 import javafx.scene.input.MouseEvent;
-import model.Cell;
 
 interface MouseListener {
 
-    default void onMousePressed(MouseEvent event, Cell cell) {}
-    default void onMouseReleased(MouseEvent event, Cell cell) {}
-    default void onMouseEntered(MouseEvent event, Cell cell) {};
+    default void onMousePressed(MouseEvent event, Coordinate coordinate) {}
+    default void onMouseReleased(MouseEvent event, Coordinate coordinate) {}
+    default void onMouseEntered(MouseEvent event, Coordinate coordinate) {};
 
 }

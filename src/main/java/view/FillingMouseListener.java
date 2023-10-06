@@ -1,41 +1,37 @@
 package view;
 
+import datastruct.Coordinate;
 import javafx.scene.input.MouseEvent;
-import model.Cell;
-import model.CellState;
 
 public class FillingMouseListener implements MouseListener {
     private final MatrixPane matrix;
-    private final CellState cellState;
+    private final Coordinate source;
 
-    public FillingMouseListener(MatrixPane matrix, CellState cellState) {
+
+    public FillingMouseListener(MatrixPane matrix, Coordinate source) {
         this.matrix = matrix;
-        this.cellState = cellState;
+        this.source = source;
     }
 
     @Override
-    public void onMouseReleased(MouseEvent event, Cell cell) {
-        System.out.println("Filling Release");
+    public void onMouseReleased(MouseEvent event, Coordinate coord) {
         this.matrix.resetWaitingListener();
     }
 
     @Override
-    public void onMouseEntered(MouseEvent event, Cell cell) {
-        System.out.println("Filling Enter");
+    public void onMouseEntered(MouseEvent event, Coordinate destination) {
         if (!event.isPrimaryButtonDown()) {
             this.matrix.resetWaitingListener();
             return;
         }
-        while (!cellState.equals(cell.getState())) {
-            cell.toggleState();
-        }
+        this.matrix.getController().getSimulation().copy(source, destination);
     }
 
     @Override
-    public void onMousePressed(MouseEvent event, Cell cell) {
-        System.out.println("Filling Pressed");
-        cell.toggleState();
-        CellState state = cell.getState();
-        this.matrix.setMouseListener(new FillingMouseListener(this.matrix, state));
+    public void onMousePressed(MouseEvent event, Coordinate coordinate) {
+        this.matrix.getController().getSimulation().next(coordinate);
+        this.matrix.setMouseListener(
+                new FillingMouseListener(this.matrix, coordinate)
+        );
     }
 }

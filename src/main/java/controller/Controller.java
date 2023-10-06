@@ -1,11 +1,17 @@
 package controller;
 
+import datastruct.Coordinate;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import model.GameOfLife;
-import model.Grid;
+import javafx.util.Duration;
+import model.CellularAutomataSimulation;
 import view.MatrixPane;
 
 import static java.util.Objects.requireNonNull;
@@ -15,6 +21,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class Controller {
 
+    public static final int PERIOD_IN_MILLISECONDS = 100;
     @FXML
     private ToggleButton playToggleButton;
     @FXML
@@ -23,12 +30,18 @@ public class Controller {
     private Label generationNumberLabel;
     @FXML
     private MatrixPane matrixPane;
+    private Timeline timeline;
 
-    private GameOfLife gameOfLife;
+    public Simulation getSimulation() {
+        return simulation;
+    }
+
+    private Simulation simulation;
 
     @FXML
     private void initialize() {
         initializePlayAndPauseToggleButtons();
+        updateTimeline();
     }
 
     private void initializePlayAndPauseToggleButtons() {
@@ -39,46 +52,76 @@ public class Controller {
 
 
     /**
-     * Sets {@link GameOfLife} instance.
+     * Sets {@link CellularAutomataSimulation} instance.
      *
-     * @param gameOfLife {@link GameOfLife} instance
+     * @param simulation {@link CellularAutomataSimulation} instance
      * @throws NullPointerException if {@code gameOfLife} is {@code null}
      */
 
-    public void setGameOfLife(GameOfLife gameOfLife) {
-        this.gameOfLife = requireNonNull(gameOfLife, "game of life is null");
+    public void setSimulation(Simulation simulation) {
+        this.simulation = requireNonNull(simulation, "game of life is null");
         setGenerationNumberLabelTextProperty();
         initializeMatrixPane();
     }
 
     private void setGenerationNumberLabelTextProperty() {
-        generationNumberLabel.textProperty().bind(gameOfLife.generationNumberProperty().asString());
+        generationNumberLabel.textProperty().bind(simulation.generationNumberProperty().asString());
     }
 
     private void initializeMatrixPane() {
-        Grid grid = gameOfLife.getGrid();
-        matrixPane.initialize(grid);
+        matrixPane.initialize(this);
     }
 
     @FXML
     private void playToggleButtonAction() {
-        gameOfLife.play();
+        this.play();
     }
 
     @FXML
     private void pauseToggleButtonAction() {
-        gameOfLife.pause();
+        this.pause();
     }
 
     @FXML
     private void resetButtonAction() {
-        gameOfLife.reset();
+        this.pause();
+        simulation.reset();
         pauseToggleButton.setSelected(true);
     }
 
     @FXML
     private void clearButtonAction() {
-        gameOfLife.clear();
+        this.pause();
+        simulation.clear();
         pauseToggleButton.setSelected(true);
+    }
+
+
+
+    public Iterable<Coordinate> coordinates() {
+        return simulation;
+    }
+
+    private void updateTimeline() {
+        Duration duration = new Duration(Controller.PERIOD_IN_MILLISECONDS);
+        EventHandler<ActionEvent> eventHandler =
+                event -> simulation.updateToNextGeneration();
+        KeyFrame keyFrame = new KeyFrame(duration, eventHandler);
+        timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(Animation.INDEFINITE);
+    }
+
+    /**
+     * Plays the game.
+     */
+    public void play() {
+        timeline.play();
+    }
+
+    /**
+     * Pauses the game.
+     */
+    public void pause() {
+        timeline.pause();
     }
 }
