@@ -5,12 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.CellGrid;
-import model.CellularAutomataSimulation;
-import model.GameOfLifeState;
+import model.CellularAutomatonSimulation;
+import model.states.BriansBrainState;
+import model.states.SeedsState;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 
 import static java.util.Objects.requireNonNull;
 
@@ -18,38 +19,33 @@ import static java.util.Objects.requireNonNull;
  * Entry point for <i>The Game of Life</i> application.
  *
  */
-public class GameOfLifeApplication extends Application {
+public class SimulatorApplication extends Application {
 
-  private static final int NUMBER_OF_ROWS = 40;
-  private static final int NUMBER_OF_COLUMNS = 70;
+  public static final int NUMBER_OF_ROWS = 40;
+  public static final int NUMBER_OF_COLUMNS = 70;
+
+  public static final Random GENERATOR = new Random();
 
   private static final String APP_NAME = "Game of Life";
   private static final String VIEW_RESOURCE_PATH = "/view/view.fxml";
 
-  private final CellularAutomataSimulation<GameOfLifeState> gameOfLife;
+  private final CellularAutomatonSimulation<SeedsState> gameOfLife;
   private Stage primaryStage;
   private Parent view;
 
   /**
    * Creates a new {@code GameOfLifeApplication} instance.
    */
-  public GameOfLifeApplication() {
-    this(new CellularAutomataSimulation<GameOfLifeState>(
-            new CellGrid<>(NUMBER_OF_COLUMNS, NUMBER_OF_ROWS, GameOfLifeState.ALIVE),
-            GameOfLifeState.DEAD,
-            GameOfLifeState::random
-    ));
+  public SimulatorApplication() {
+    this.gameOfLife =
+      new CellularAutomatonSimulation<>(
+              NUMBER_OF_COLUMNS,
+              NUMBER_OF_ROWS,
+              SeedsState.OFF,
+              SeedsState::random
+      );
   }
 
-  /**
-   * Creates a new {@code GameOfLifeApplication} instance given a {@link CellularAutomataSimulation} instance.
-   *
-   * @param cellularAutomataSimulation the {@link CellularAutomataSimulation} instance
-   * @throws NullPointerException if {@code gameOfLife} is {@code null}
-   */
-  private GameOfLifeApplication(CellularAutomataSimulation<GameOfLifeState> cellularAutomataSimulation) {
-    this.gameOfLife = requireNonNull(cellularAutomataSimulation, "game of life is null");
-  }
 
   @Override
   public void start(Stage primaryStage) throws IOException {
@@ -68,7 +64,7 @@ public class GameOfLifeApplication extends Application {
 
   private void initializeView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
-    URL location = GameOfLifeApplication.class.getResource(VIEW_RESOURCE_PATH);
+    URL location = SimulatorApplication.class.getResource(VIEW_RESOURCE_PATH);
     loader.setLocation(location);
     view = loader.load();
     Controller controller = loader.getController();

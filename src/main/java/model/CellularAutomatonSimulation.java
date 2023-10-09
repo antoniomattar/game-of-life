@@ -12,29 +12,31 @@ import java.util.function.Supplier;
 import static java.util.Objects.requireNonNull;
 
 /**
- * {@link CellularAutomataSimulation} instances run <i>The Game of Life</i>.
+ * {@link CellularAutomatonSimulation} instances run <i>The Game of Life</i>.
  */
-public class CellularAutomataSimulation<S extends State<S>>
+public class CellularAutomatonSimulation<S extends State<S>>
         implements Simulation {
 
     private final CellGrid<S> grid;
-    private final Supplier<S> supplier;
+    private final Supplier<S> randomState;
     private final S defaultState;
     private final ReadOnlyLongWrapper generationNumber = new ReadOnlyLongWrapper();
 
     /**
-     * Creates a new {@code GameOfLife} instance given the underlying {@link CellGrid}.
+     * Creates a new {@code CellularAutomataSimulation} instance for a given automaton.
      *
-     * @param grid     the underlying {@link CellGrid}
-     * @param defaultState   the state value to use when clearing the grid
-     * @param supplier  a {@Link Supplier} to produce values to initialize or reset the grid
-     * @throws NullPointerException if {@code grid} is {@code null}
+     * @param width         an {@code int} representing the number of columns
+     * @param height        an {@code int} representing the number of rows
+     * @param defaultState  a state {@code S} used to fill the grid when using
+     *                      the clear action
+     * @param randomState  a generator of states {@code} used to fill the grid
+     *                      when using the reset action
      */
-    public CellularAutomataSimulation(CellGrid<S> grid, S defaultState, Supplier<S> supplier) {
-        this.grid = requireNonNull(grid, "grid is null");
-        this.supplier = requireNonNull(supplier, "supplier is null");
-        this.defaultState = requireNonNull(defaultState, "defaultState is null");
-        grid.fillRandomly(this.supplier);
+    public CellularAutomatonSimulation(int width, int height, S defaultState, Supplier<S> randomState) {
+        this.grid = new CellGrid<>(width, height, defaultState);
+        this.defaultState = defaultState;
+        this.randomState = randomState;
+        grid.fillRandomly(randomState);
     }
 
 
@@ -54,8 +56,8 @@ public class CellularAutomataSimulation<S extends State<S>>
      */
     @Override
     public void updateToNextGeneration() {
-        grid.updateToNextGeneration();
-        generationNumber.set(getGenerationNumber() + 1);
+        this.grid.updateToNextGeneration();
+        this.generationNumber.set(getGenerationNumber() + 1);
     }
 
     @Override
@@ -88,7 +90,7 @@ public class CellularAutomataSimulation<S extends State<S>>
      * @return the current generationNumber
      */
     private long getGenerationNumber() {
-        return generationNumber.get();
+        return this.generationNumber.get();
     }
 
     /**
@@ -97,7 +99,7 @@ public class CellularAutomataSimulation<S extends State<S>>
      * @return the generationNumber {@link ReadOnlyLongProperty}
      */
     public ReadOnlyLongProperty generationNumberProperty() {
-        return generationNumber.getReadOnlyProperty();
+        return this.generationNumber.getReadOnlyProperty();
     }
 
 
@@ -105,16 +107,16 @@ public class CellularAutomataSimulation<S extends State<S>>
      * Clears the current game.
      */
     public void clear() {
-        grid.clear(defaultState);
-        generationNumber.set(0);
+        this.grid.clear(this.defaultState);
+        this.generationNumber.set(0);
     }
 
     /**
      * Clears the current game and randomly generates a new one.
      */
     public void reset() {
-        clear();
-        grid.fillRandomly(supplier);
+        this.clear();
+        this.grid.fillRandomly(this.randomState);
     }
 
     @Override

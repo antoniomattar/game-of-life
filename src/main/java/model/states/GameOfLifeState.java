@@ -1,6 +1,7 @@
-package model;
+package model.states;
 
 import javafx.scene.paint.Color;
+import model.State;
 
 import java.util.List;
 import java.util.Random;

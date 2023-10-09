@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.util.Duration;
-import model.CellularAutomataSimulation;
+import model.CellularAutomatonSimulation;
 import view.MatrixPane;
 
 import static java.util.Objects.requireNonNull;
@@ -52,9 +52,9 @@ public class Controller {
 
 
     /**
-     * Sets {@link CellularAutomataSimulation} instance.
+     * Sets {@link CellularAutomatonSimulation} instance.
      *
-     * @param simulation {@link CellularAutomataSimulation} instance
+     * @param simulation {@link CellularAutomatonSimulation} instance
      * @throws NullPointerException if {@code gameOfLife} is {@code null}
      */
 

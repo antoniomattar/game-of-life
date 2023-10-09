@@ -50,7 +50,7 @@ public class Matrix<T> {
 
     public Iterator<T> iterator() {
         Iterator<Coordinate> coordIterator = this.coordinatesIterator();
-        return new MatrixIterator(this, coordIterator);
+        return new MatrixIterator<>(this, coordIterator);
     }
 
     public Iterable<Coordinate> coordinates() {

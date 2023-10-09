@@ -6,11 +6,11 @@ import datastruct.MatrixInitializer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OneStepMatrixInitializer<S extends State<S>> implements MatrixInitializer<S> {
+public class NextGenerationInitializer<S extends State<S>> implements MatrixInitializer<S> {
 
     private final CellGrid<S> grid;
 
-    public OneStepMatrixInitializer(CellGrid<S> grid) {
+    public NextGenerationInitializer(CellGrid<S> grid) {
         this.grid = grid;
     }
 

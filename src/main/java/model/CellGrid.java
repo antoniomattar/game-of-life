@@ -107,7 +107,7 @@ public class CellGrid<S extends State<S>> implements Iterable<Cell<S>> {
         return new Matrix<>(
                 this.numberOfColumns,
                 this.numberOfRows,
-                new OneStepMatrixInitializer<>(this)
+                new NextGenerationInitializer<>(this)
         );
     }
 
