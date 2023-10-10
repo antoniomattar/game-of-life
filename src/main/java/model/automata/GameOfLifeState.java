@@ -4,7 +4,6 @@ import javafx.scene.paint.Color;
 import model.State;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * {@link GameOfLifeState} instances represent the possible states of a {@link GameOfLifeState}.
@@ -31,12 +30,7 @@ public enum GameOfLifeState implements State<GameOfLifeState> {
 
     @Override
     public GameOfLifeState update(List<State<GameOfLifeState>> neighbours) {
-        int countAlive = 0;
-        for (State<GameOfLifeState> state : neighbours) {
-            if (state.equals(ALIVE)) {
-                countAlive++;
-            }
-        }
+        int countAlive = State.count(ALIVE, neighbours);
         boolean isAlive =
                 (this == DEAD && 3 == countAlive)
                 || (this == ALIVE && 2 <= countAlive && countAlive <= 3);

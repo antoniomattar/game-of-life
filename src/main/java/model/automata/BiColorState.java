@@ -4,7 +4,6 @@ import javafx.scene.paint.Color;
 import model.State;
 
 import java.util.List;
-import java.util.Random;
 
 public enum BiColorState implements State<BiColorState> {
     BLUE, RED, DEAD;
@@ -31,22 +30,15 @@ public enum BiColorState implements State<BiColorState> {
 
     @Override
     public BiColorState update(List<State<BiColorState>> neighbours) {
-        int countBlue = 0;
-        int countRed = 0;
-        for (State<BiColorState> neighbour : neighbours) {
-            if (neighbour == RED) {
-                countRed++;
-            }
-            if (neighbour == BLUE) {
-                countBlue++;
-            }
-        }
+        int countBlue = State.count(BLUE, neighbours);
+        int countRed = State.count(RED, neighbours);
+        int countAlive = countBlue + countRed;
         if (this == DEAD) {
-            return (countBlue + countRed != 3)? DEAD:
+            return (countAlive != 3)? DEAD:
                     countBlue > countRed? BLUE:
                             RED;
         }
-        return 2 <= countBlue + countRed && countBlue + countRed <= 3? this:
+        return 2 <= countAlive && countAlive <= 3? this:
                 DEAD;
     }
 

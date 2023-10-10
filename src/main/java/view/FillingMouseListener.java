@@ -14,7 +14,7 @@ public class FillingMouseListener implements MouseListener {
     }
 
     @Override
-    public void onMouseReleased(MouseEvent event, Coordinate coord) {
+    public void onMouseReleased(MouseEvent event, Coordinate coordinate) {
         this.matrix.resetWaitingListener();
     }
 
@@ -34,4 +34,5 @@ public class FillingMouseListener implements MouseListener {
                 new FillingMouseListener(this.matrix, coordinate)
         );
     }
+
 }

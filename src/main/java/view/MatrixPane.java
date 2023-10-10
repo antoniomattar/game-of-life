@@ -52,6 +52,7 @@ public class MatrixPane extends GridPane {
     }
 
     private void addEventHandler(Rectangle cellRectangle, Coordinate coord) {
+
         cellRectangle.addEventHandler(
                 MouseEvent.MOUSE_PRESSED,
                 event -> mouseListener.onMousePressed(event, coord)

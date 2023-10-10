@@ -65,7 +65,14 @@ public class Controller {
     }
 
     private void setGenerationNumberLabelTextProperty() {
-        generationNumberLabel.textProperty().bind(simulation.generationNumberProperty().asString());
+        updateGenerationNumber(0);
+        this.simulation.setGenerationNumberChangeListener(
+                (oldValue, newValue) -> updateGenerationNumber(newValue)
+        );
+    }
+
+    private void updateGenerationNumber(int newValue) {
+        generationNumberLabel.textProperty().set(String.valueOf(newValue));
     }
 
     private void initializeMatrixPane() {

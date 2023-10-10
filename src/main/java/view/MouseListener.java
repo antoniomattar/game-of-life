@@ -9,4 +9,5 @@ interface MouseListener {
     default void onMouseReleased(MouseEvent event, Coordinate coordinate) {}
     default void onMouseEntered(MouseEvent event, Coordinate coordinate) {};
 
+
 }

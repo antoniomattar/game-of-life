@@ -1,12 +1,10 @@
 package model.automata;
 
-import model.CellularAutomaton;
-
 import java.util.Random;
 
 public class GameOfLifeAutomaton extends AbstractAutomaton<GameOfLifeState> {
 
-    protected GameOfLifeAutomaton(int numberOfColumns, int numberOfRows) {
+    public GameOfLifeAutomaton(int numberOfColumns, int numberOfRows) {
         super(numberOfColumns, numberOfRows);
     }
 

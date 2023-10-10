@@ -14,7 +14,7 @@ public class SeedsAutomaton extends AbstractAutomaton<SeedsState> {
 
     @Override
     public SeedsState randomState(Random generator) {
-        return generator.nextInt() == 0?
+        return generator.nextInt(10) == 0?
                 SeedsState.ON:
                 SeedsState.OFF;
     }

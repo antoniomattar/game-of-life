@@ -4,7 +4,6 @@ import javafx.scene.paint.Color;
 import model.State;
 
 import java.util.List;
-import java.util.Random;
 
 public enum BriansBrainState implements State<BriansBrainState> {
     ON, OFF, DYING;
@@ -33,19 +32,11 @@ public enum BriansBrainState implements State<BriansBrainState> {
             case ON -> DYING;
             case DYING -> OFF;
             case OFF -> {
-                int count = countList(ON, neighbours);
+                int count = State.count(ON, neighbours);
                 yield count==2 ? ON : OFF;
             }
         };
     }
 
-    static <T>  int countList(T value, List<T> elements) {
-        int count = 0;
-        for (T v : elements) {
-            if (v.equals(value)) {
-                count++;
-            }
-        }
-        return count;
-    }
+
 }

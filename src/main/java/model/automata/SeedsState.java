@@ -5,14 +5,13 @@ import model.State;
 
 import java.util.List;
 
-import static model.automata.BriansBrainState.countList;
 
 public enum SeedsState implements State<SeedsState> {
     ON, OFF;
     @Override
     public Color getColor() {
         return switch (this) {
-            case ON -> Color.WHITE;
+            case ON -> Color.GOLD;
             case OFF -> Color.BLACK;
         };
     }
@@ -29,7 +28,7 @@ public enum SeedsState implements State<SeedsState> {
     public SeedsState update(List<State<SeedsState>> neighbours) {
         return switch (this) {
             case ON -> OFF;
-            case OFF -> countList(ON,neighbours) == 2 ? ON: OFF;
+            case OFF -> State.count(ON,neighbours) == 2 ? ON: OFF;
         };
     }
 

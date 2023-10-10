@@ -3,30 +3,31 @@ package model;
 import controller.Simulation;
 import datastruct.Coordinate;
 import datastruct.Matrix;
-import javafx.beans.property.ReadOnlyLongProperty;
-import javafx.beans.property.ReadOnlyLongWrapper;
 import javafx.scene.paint.Color;
+
 import java.util.Iterator;
 import java.util.Random;
-import java.util.function.Supplier;
 
 
 
 /**
  * {@link CellularAutomatonSimulation} instances run <i>The Game of Life</i>.
+ *
+ *  @param <S> The type of state used in the simulation.
  */
 public class CellularAutomatonSimulation<S extends State<S>>
         implements Simulation {
 
     private final Matrix<Cell<S>> grid;
-    private final ReadOnlyLongWrapper generationNumber = new ReadOnlyLongWrapper();
+    private final Cell<Integer> generationNumber = new Cell<>(0);
     private final CellularAutomaton<S> automaton;
     private final Random generator;
 
     /**
      * Creates a new {@link CellularAutomatonSimulation} instance for a given automaton.
      *
-     * @param automaton         a description of the {@link CellularAutomaton}
+     * @param automaton  A description of the {@link CellularAutomaton}.
+     * @param generator  The {@link Random} instance used for random state generation.
      */
     public CellularAutomatonSimulation(CellularAutomaton<S> automaton, Random generator) {
         this.automaton = automaton;
@@ -38,18 +39,6 @@ public class CellularAutomatonSimulation<S extends State<S>>
         this.generator = generator;
     }
 
-    /**
-     * Goes through each {@link Cell} in this {@code CellGrid} and sets it states with a
-     * state obtained from the supplier.
-     *
-     * @param generator {@link Random} instance used to generate a random state for each cell
-     *                  {@link Cell}.
-     */
-    public void fillRandomly(Random generator) {
-        for (Cell<S> cell : this.grid) {
-            cell.set(this.automaton.randomState(generator));
-        }
-    }
 
     @Override
     public int numberOfColumns() {
@@ -61,24 +50,32 @@ public class CellularAutomatonSimulation<S extends State<S>>
         return this.grid.height();
     }
 
+    /**
+     * Returns the {@link Cell} at the specified coordinate.
+     *
+     * @param coordinate The coordinate of the cell to retrieve.
+     * @return The cell at the specified coordinate.
+     */
     public Cell<S> at(Coordinate coordinate) {
         return this.grid.get(coordinate);
     }
 
+    @Override
     public void updateToNextGeneration() {
-        this.generationNumber.set(getGenerationNumber() + 1);
+        this.generationNumber.set(this.generationNumber.get()+1);
         Matrix<S> nextStates = this.nextGenerationMatrix();
         for (Coordinate coordinate : this.grid.coordinates()) {
             this.at(coordinate).set(nextStates.get(coordinate));
         }
     }
-    /** Computes the {link Matrix} of states obtained after a single step of updates
+
+    /** Computes the {@link Matrix} of states obtained after a single step of updates
      * of the simulation.
      *
      * @return the states of each cell after one generation
      */
     private Matrix<S> nextGenerationMatrix() {
-        return new Matrix<S>(
+        return new Matrix<>(
                 this.grid.width(),
                 this.grid.height(),
                 new NextGenerationInitializer<>(this)
@@ -92,7 +89,6 @@ public class CellularAutomatonSimulation<S extends State<S>>
 
     @Override
     public void copy(Coordinate source, Coordinate destination) {
-        System.out.println("bip (" + source + ") (" + destination + ")");
         S state = this.at(source).get();
         this.at(destination).set(state);
     }
@@ -109,29 +105,13 @@ public class CellularAutomatonSimulation<S extends State<S>>
         );
     }
 
-
-    /**
-     * Returns the current generationNumber.
-     *
-     * @return the current generationNumber
-     */
-    private long getGenerationNumber() {
-        return this.generationNumber.get();
-    }
-
-    /**
-     * Returns the generationNumber {@link ReadOnlyLongProperty}.
-     *
-     * @return the generationNumber {@link ReadOnlyLongProperty}
-     */
-    public ReadOnlyLongProperty generationNumberProperty() {
-        return this.generationNumber.getReadOnlyProperty();
+    @Override
+    public void setGenerationNumberChangeListener(OnChangeListener<Integer> listener){
+        this.generationNumber.addOnChangeListener(listener);
     }
 
 
-    /**
-     * Clears the current game.
-     */
+    @Override
     public void clear() {
         for (Cell<S> cell : this.grid) {
             cell.set(this.automaton.defaultState());
@@ -139,12 +119,13 @@ public class CellularAutomatonSimulation<S extends State<S>>
         this.generationNumber.set(0);
     }
 
-    /**
-     * Clears the current game and randomly generates a new one.
-     */
+
+    @Override
     public void reset() {
-        this.clear();
-        this.fillRandomly(this.generator);
+        for (Cell<S> cell : this.grid) {
+            cell.set(this.automaton.randomState(generator));
+        }
+        this.generationNumber.set(0);
     }
 
     @Override

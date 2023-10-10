@@ -7,15 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.CellularAutomatonSimulation;
-import model.automata.BriansBrainAutomaton;
-import model.automata.GameOfLifeAutomaton;
+import model.automata.BiColorAutomaton;
 import model.automata.SeedsAutomaton;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Entry point for <i>The Game of Life</i> application.
@@ -41,7 +38,7 @@ public class SimulatorApplication extends Application {
   public SimulatorApplication() {
     this.simulation =
       new CellularAutomatonSimulation<>(
-              new SeedsAutomaton(NUMBER_OF_COLUMNS,NUMBER_OF_ROWS),
+              new BiColorAutomaton(NUMBER_OF_COLUMNS,NUMBER_OF_ROWS),
               GENERATOR
       );
   }

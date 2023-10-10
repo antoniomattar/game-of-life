@@ -1,7 +1,5 @@
 package model.automata;
 
-import model.CellularAutomaton;
-
 import java.util.Random;
 
 public class BiColorAutomaton extends AbstractAutomaton<BiColorState> {
