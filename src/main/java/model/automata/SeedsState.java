@@ -1,12 +1,11 @@
-package model.states;
+package model.automata;
 
 import javafx.scene.paint.Color;
 import model.State;
 
 import java.util.List;
 
-import static model.states.BriansBrainState.GENERATOR;
-import static model.states.BriansBrainState.countList;
+import static model.automata.BriansBrainState.countList;
 
 public enum SeedsState implements State<SeedsState> {
     ON, OFF;
@@ -34,7 +33,4 @@ public enum SeedsState implements State<SeedsState> {
         };
     }
 
-    public static SeedsState random() {
-        return GENERATOR.nextInt(10)==0? ON: OFF;
-    }
 }

@@ -2,14 +2,15 @@ package model;
 
 import controller.Simulation;
 import datastruct.Coordinate;
+import datastruct.Matrix;
 import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyLongWrapper;
 import javafx.scene.paint.Color;
-
 import java.util.Iterator;
+import java.util.Random;
 import java.util.function.Supplier;
 
-import static java.util.Objects.requireNonNull;
+
 
 /**
  * {@link CellularAutomatonSimulation} instances run <i>The Game of Life</i>.
@@ -17,69 +18,94 @@ import static java.util.Objects.requireNonNull;
 public class CellularAutomatonSimulation<S extends State<S>>
         implements Simulation {
 
-    private final CellGrid<S> grid;
-    private final Supplier<S> randomState;
-    private final S defaultState;
+    private final Matrix<Cell<S>> grid;
     private final ReadOnlyLongWrapper generationNumber = new ReadOnlyLongWrapper();
+    private final CellularAutomaton<S> automaton;
+    private final Random generator;
 
     /**
-     * Creates a new {@code CellularAutomataSimulation} instance for a given automaton.
+     * Creates a new {@link CellularAutomatonSimulation} instance for a given automaton.
      *
-     * @param width         an {@code int} representing the number of columns
-     * @param height        an {@code int} representing the number of rows
-     * @param defaultState  a state {@code S} used to fill the grid when using
-     *                      the clear action
-     * @param randomState  a generator of states {@code} used to fill the grid
-     *                      when using the reset action
+     * @param automaton         a description of the {@link CellularAutomaton}
      */
-    public CellularAutomatonSimulation(int width, int height, S defaultState, Supplier<S> randomState) {
-        this.grid = new CellGrid<>(width, height, defaultState);
-        this.defaultState = defaultState;
-        this.randomState = randomState;
-        grid.fillRandomly(randomState);
+    public CellularAutomatonSimulation(CellularAutomaton<S> automaton, Random generator) {
+        this.automaton = automaton;
+        this.grid = new Matrix<>(
+                automaton.numberOfColumns(),
+                automaton.numberOfRows(),
+                new ConstantCellInitializer<>(automaton.defaultState())
+        );
+        this.generator = generator;
     }
 
-
+    /**
+     * Goes through each {@link Cell} in this {@code CellGrid} and sets it states with a
+     * state obtained from the supplier.
+     *
+     * @param generator {@link Random} instance used to generate a random state for each cell
+     *                  {@link Cell}.
+     */
+    public void fillRandomly(Random generator) {
+        for (Cell<S> cell : this.grid) {
+            cell.set(this.automaton.randomState(generator));
+        }
+    }
 
     @Override
     public int numberOfColumns() {
-        return this.grid.getNumberOfColumns();
+        return this.grid.width();
     }
 
     @Override
     public int numberOfRows() {
-        return this.grid.getNumberOfRows();
+        return this.grid.height();
     }
 
-    /**
-     * Transitions into the next generationNumber.
-     */
-    @Override
+    public Cell<S> at(Coordinate coordinate) {
+        return this.grid.get(coordinate);
+    }
+
     public void updateToNextGeneration() {
-        this.grid.updateToNextGeneration();
         this.generationNumber.set(getGenerationNumber() + 1);
+        Matrix<S> nextStates = this.nextGenerationMatrix();
+        for (Coordinate coordinate : this.grid.coordinates()) {
+            this.at(coordinate).set(nextStates.get(coordinate));
+        }
     }
-
+    /** Computes the {link Matrix} of states obtained after a single step of updates
+     * of the simulation.
+     *
+     * @return the states of each cell after one generation
+     */
+    private Matrix<S> nextGenerationMatrix() {
+        return new Matrix<S>(
+                this.grid.width(),
+                this.grid.height(),
+                new NextGenerationInitializer<>(this)
+        );
+    }
     @Override
     public void next(Coordinate coordinate) {
-        this.grid.cellAt(coordinate).toggleState();
+        S oldState = this.grid.get(coordinate).get();
+        this.at(coordinate).set(oldState.next());
     }
 
     @Override
     public void copy(Coordinate source, Coordinate destination) {
-        S state = this.grid.at(source).get();
-        this.grid.at(destination).set(state);
+        System.out.println("bip (" + source + ") (" + destination + ")");
+        S state = this.at(source).get();
+        this.at(destination).set(state);
     }
 
     @Override
     public Color getColor(Coordinate coordinate) {
-        return this.grid.at(coordinate).get().getColor();
+        return this.at(coordinate).get().getColor();
     }
 
     @Override
-    public void setChangeListener(Coordinate coordinate, Runnable runnable) {
-        this.grid.cellAt(coordinate).getStateProperty().addListener(
-                (obs,oldV,newV) -> runnable.run()
+    public void setChangeListener(Coordinate coordinate, Runnable listener) {
+        this.at(coordinate).addOnChangeListener(
+                (oldValue, newValue) -> listener.run()
         );
     }
 
@@ -107,7 +133,9 @@ public class CellularAutomatonSimulation<S extends State<S>>
      * Clears the current game.
      */
     public void clear() {
-        this.grid.clear(this.defaultState);
+        for (Cell<S> cell : this.grid) {
+            cell.set(this.automaton.defaultState());
+        }
         this.generationNumber.set(0);
     }
 
@@ -116,7 +144,7 @@ public class CellularAutomatonSimulation<S extends State<S>>
      */
     public void reset() {
         this.clear();
-        this.grid.fillRandomly(this.randomState);
+        this.fillRandomly(this.generator);
     }
 
     @Override

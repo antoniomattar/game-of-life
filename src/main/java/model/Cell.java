@@ -1,67 +1,50 @@
 package model;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.paint.Color;
+import datastruct.Lens;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * {@link Cell} instances represent the cells of <i>The Game of Life</i>.
+ * {@link Cell} instances represent the cells of the grid in a simulation of cellular automata.
  */
 
-public class Cell<S extends State<S>> {
-    private final Property<S> stateProperty;
+public class Cell<T> implements Lens<T> {
+    private T content;
+    private final List<OnChangeListener<T>> listeners = new ArrayList<>();
 
-    public Cell(S initialState) {
-        this.stateProperty = new SimpleObjectProperty<>(initialState);
-    }
-
-    /**
-     * Determines the color associated with the state in which
-     * this {@link Cell} is.
+    /** Initialize a new cell with a given value.
      *
-     * @return the {@link Color} associated with the state in
-     * which this {@link Cell} is
+     * @param initialContent the value initially stored by the cell.
      */
+    public Cell(T initialContent) {
+        this.content = initialContent;
+    }
 
-    public Color getColor() {
-        return this.getState().getColor();
+    public void addOnChangeListener(OnChangeListener<T> listener) {
+        this.listeners.add(listener);
     }
 
     /**
-     * Sets the state of this {@link Cell}.
+     * Sets the content of this {@link Cell}.
      *
-     * @param state the new state of this {@link Cell}
+     * @param value the new content of this {@link Cell}
      */
-
-    public void setState(S state) {
-        getStateProperty().setValue(state);
+    public void set(T value) {
+        this.content = value;
+        for (OnChangeListener<T> listener : this.listeners) {
+            listener.valueChanged(this.content, value);
+        }
     }
 
     /**
-     * Returns the current state of this {@link Cell}.
+     * Returns the current content of this {@link Cell}.
      *
-     * @return the current state of this {@link Cell}
+     * @return the current content of this {@link Cell}
      */
-
-    public S getState(){
-        return getStateProperty().getValue();
+    public T get(){
+        return this.content;
     }
 
-    /**
-     * Change the state of this {@link Cell} to the next possible state.
-     */
-
-    public void toggleState() {
-        setState(getState().next());
-    }
-
-    /**
-     * Returns this {@link Cell}'s state property.
-     *
-     * @return this {@link Cell}'s state property.
-     */
-    public Property<S> getStateProperty() {
-        return stateProperty;
-    }
 
 }

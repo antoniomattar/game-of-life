@@ -3,6 +3,7 @@ package controller;
 import datastruct.Coordinate;
 import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.scene.paint.Color;
+import model.OnChangeListener;
 
 public interface Simulation extends Iterable<Coordinate> {
 
@@ -17,7 +18,7 @@ public interface Simulation extends Iterable<Coordinate> {
 
     Color getColor(Coordinate coordinate);
 
-    void setChangeListener(Coordinate coordinate, Runnable run);
+    void setChangeListener(Coordinate coordinate, Runnable listener);
 
     ReadOnlyLongProperty generationNumberProperty();
 

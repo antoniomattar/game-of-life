@@ -1,4 +1,4 @@
-package model.states;
+package model.automata;
 
 import javafx.scene.paint.Color;
 import model.State;
@@ -47,11 +47,5 @@ public enum BriansBrainState implements State<BriansBrainState> {
             }
         }
         return count;
-    }
-
-    final static Random GENERATOR = new Random();
-
-    public static BriansBrainState random() {
-        return GENERATOR.nextInt(10) == 0 ? ON: OFF;
     }
 }

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Matrix<T> {
+public class Matrix<T> implements Iterable<T> {
 
     private final List<List<T>> matrix;
+
+
     private final int width;
     private final int height;
 
@@ -31,6 +33,13 @@ public class Matrix<T> {
         }
     }
 
+    public int width() {
+        return width;
+    }
+
+    public int height() {
+        return height;
+    }
     public T get(int x, int y) {
         return this.matrix.get(x).get(y);
     }

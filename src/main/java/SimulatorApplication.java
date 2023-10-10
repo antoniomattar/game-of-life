@@ -1,4 +1,5 @@
 import controller.Controller;
+import controller.Simulation;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -6,8 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.CellularAutomatonSimulation;
-import model.states.BriansBrainState;
-import model.states.SeedsState;
+import model.automata.BriansBrainAutomaton;
+import model.automata.GameOfLifeAutomaton;
+import model.automata.SeedsAutomaton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,10 +28,10 @@ public class SimulatorApplication extends Application {
 
   public static final Random GENERATOR = new Random();
 
-  private static final String APP_NAME = "Game of Life";
+  private static final String APP_NAME = "2D Cellular automata";
   private static final String VIEW_RESOURCE_PATH = "/view/view.fxml";
 
-  private final CellularAutomatonSimulation<SeedsState> gameOfLife;
+  private final Simulation simulation;
   private Stage primaryStage;
   private Parent view;
 
@@ -37,12 +39,10 @@ public class SimulatorApplication extends Application {
    * Creates a new {@code GameOfLifeApplication} instance.
    */
   public SimulatorApplication() {
-    this.gameOfLife =
+    this.simulation =
       new CellularAutomatonSimulation<>(
-              NUMBER_OF_COLUMNS,
-              NUMBER_OF_ROWS,
-              SeedsState.OFF,
-              SeedsState::random
+              new SeedsAutomaton(NUMBER_OF_COLUMNS,NUMBER_OF_ROWS),
+              GENERATOR
       );
   }
 
@@ -68,7 +68,7 @@ public class SimulatorApplication extends Application {
     loader.setLocation(location);
     view = loader.load();
     Controller controller = loader.getController();
-    controller.setSimulation(gameOfLife);
+    controller.setSimulation(simulation);
   }
 
 

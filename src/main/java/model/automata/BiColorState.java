@@ -1,4 +1,4 @@
-package model.states;
+package model.automata;
 
 import javafx.scene.paint.Color;
 import model.State;
@@ -50,12 +50,4 @@ public enum BiColorState implements State<BiColorState> {
                 DEAD;
     }
 
-
-    private final static Random generator = new Random();
-
-    public static BiColorState random() {
-        return generator.nextBoolean()? DEAD:
-                generator.nextBoolean()? RED:
-                        BLUE;
-    }
 }

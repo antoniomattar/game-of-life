@@ -1,4 +1,4 @@
-package model.states;
+package model.automata;
 
 import javafx.scene.paint.Color;
 import model.State;
@@ -43,8 +43,4 @@ public enum GameOfLifeState implements State<GameOfLifeState> {
         return isAlive ? ALIVE : DEAD;
     }
 
-    private static final Random randomGen = new Random();
-    public static GameOfLifeState random() {
-        return randomGen.nextBoolean() ? ALIVE : DEAD;
-    }
 }
