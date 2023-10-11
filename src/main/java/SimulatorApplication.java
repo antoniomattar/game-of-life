@@ -7,8 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.CellularAutomatonSimulation;
-import model.automata.BiColorAutomaton;
-import model.automata.SeedsAutomaton;
+import model.automata.GameOfLifeAutomaton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,7 +37,7 @@ public class SimulatorApplication extends Application {
   public SimulatorApplication() {
     this.simulation =
       new CellularAutomatonSimulation<>(
-              new BiColorAutomaton(NUMBER_OF_COLUMNS,NUMBER_OF_ROWS),
+              new GameOfLifeAutomaton(NUMBER_OF_COLUMNS,NUMBER_OF_ROWS),
               GENERATOR
       );
   }

@@ -12,7 +12,10 @@ import java.util.List;
  * @param <T> The type of value stored in the cell.
  */
 public class Cell<T> implements Lens<T> {
-    private T content;
+
+    //TODO: ajouter la ou les propriétés nécessaires
+
+    // la liste des objets écoutant les modifications du contenu de la cellule
     private final List<OnChangeListener<T>> listeners = new ArrayList<>();
 
     /** Initialize a new cell with a given value.
@@ -20,7 +23,7 @@ public class Cell<T> implements Lens<T> {
      * @param initialContent the value initially stored by the cell.
      */
     public Cell(T initialContent) {
-        this.content = initialContent;
+        //TODO: à compléter
     }
 
     /** Add a {@link OnChangeListener} to react to any change of value in the cell.
@@ -39,11 +42,8 @@ public class Cell<T> implements Lens<T> {
      * @param value the new content of this {@link Cell}
      */
     public void set(T value) {
-        T oldValue = this.content;
-        this.content = value;
-        for (OnChangeListener<T> listener : this.listeners) {
-            listener.valueChanged(oldValue, value);
-        }
+        //TODO: modifier le contenu de la cellule, puis appeler les méthodes valueChanged des
+        // listeners
     }
 
     /**
@@ -52,6 +52,7 @@ public class Cell<T> implements Lens<T> {
      * @return the current content of this {@link Cell}
      */
     public T get(){
-        return this.content;
+        //TODO: à compléter
+        return null;
     }
 }

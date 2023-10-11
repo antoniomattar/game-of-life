@@ -9,31 +9,25 @@ import java.util.List;
  * {@link GameOfLifeState} instances represent the possible states of a {@link GameOfLifeState}.
  */
 public enum GameOfLifeState implements State<GameOfLifeState> {
-    ALIVE(Color.RED),
-    DEAD(Color.WHITE);
+    ALIVE, DEAD;
 
-    public final Color color;
-
-    GameOfLifeState(Color color) {
-        this.color = color;
-    }
 
     @Override
     public Color getColor() {
-        return this.color;
+        //TODO: à compléter
+        return Color.BLACK;
     }
 
     @Override
     public GameOfLifeState next() {
-        return GameOfLifeState.values()[1 - this.ordinal()];
+        //TODO: à compléter
+        return null;
     }
 
     @Override
     public GameOfLifeState update(List<GameOfLifeState> neighbours) {
-        int countAlive = State.count(ALIVE, neighbours);
-        return (countAlive == 3 || this == ALIVE && countAlive == 2)?
-                 ALIVE:
-                 DEAD;
+        //TODO: à compléter
+        return null;
     }
 
 }

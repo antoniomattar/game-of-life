@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class NextGenerationInitializer<S extends State<S>> implements MatrixInitializer<S> {
 
-    private final CellularAutomatonSimulation<S> simulation;
+    //TODO: ajouter les propriétés nécessaires
 
     /** Create a {@link MatrixInitializer} to compute the next generation in
      * a 2D cellular automaton.
@@ -23,18 +23,13 @@ public class NextGenerationInitializer<S extends State<S>> implements MatrixInit
      * @param simulation the {@link Simulation} representing the cellular automaton.
      */
     public NextGenerationInitializer(CellularAutomatonSimulation<S> simulation) {
-        this.simulation = simulation;
+        //TODO: à compléter
     }
 
     @Override
     public S initialValueAt(Coordinate coordinate) {
-        List<State<S>> neighbours = new ArrayList<>();
-        for (Coordinate neighbourCoord : coordinate.orthodiagonalNeighbours()) {
-            Coordinate wrapped = wrap(neighbourCoord);
-            neighbours.add(this.simulation.at(wrapped).get());
-        }
-        S state = this.simulation.at(coordinate).get();
-        return state.update(neighbours);
+        //TODO: à compléter
+        return null;
     }
 
     /** Computes the grid {@link Coordinate} for an arbitrary {@link Coordinate}, even outside
@@ -45,11 +40,11 @@ public class NextGenerationInitializer<S extends State<S>> implements MatrixInit
      * @param coordinate a {@link Coordinate} that may be outside the grid.
      * @return a corresponding {@link Coordinate}, that is inside the grid.
      */
-    private Coordinate wrap(Coordinate coordinate) {
-        return new Coordinate(
-                modulo(coordinate.x(),this.simulation.numberOfColumns()),
-                modulo(coordinate.y(),this.simulation.numberOfRows())
-        );
+    Coordinate wrap(Coordinate coordinate) {
+        //TODO: à compléter
+        //Il faut recalculer les coordonnées x et y modulo les dimensions de la grille.
+        //Pour le modulo, utiliser la fonction ci-dessous, qui s'assure que le résultat est positif.
+        return null;
     }
 
     /** The non-negative remainder of n divided by d.
@@ -58,7 +53,7 @@ public class NextGenerationInitializer<S extends State<S>> implements MatrixInit
      * @param d a non-zero integer.
      * @return the remainder of {@code n/d}, between {@code 0} and {@code n-1}.
      */
-    private static int modulo(int n, int d) {
+    static int modulo(int n, int d) {
         int result = n % d;
         return n < 0 ? result + d : result;
     }

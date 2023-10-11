@@ -42,12 +42,14 @@ public class CellularAutomatonSimulation<S extends State<S>>
 
     @Override
     public int numberOfColumns() {
-        return this.grid.width();
+        //TODO: à compléter
+        return 0;
     }
 
     @Override
     public int numberOfRows() {
-        return this.grid.height();
+        //TODO: à compléter
+        return 0;
     }
 
     /**
@@ -57,16 +59,13 @@ public class CellularAutomatonSimulation<S extends State<S>>
      * @return The cell at the specified coordinate.
      */
     public Cell<S> at(Coordinate coordinate) {
-        return this.grid.get(coordinate);
+        //TODO: à compléter
+        return null;
     }
 
     @Override
     public void updateToNextGeneration() {
-        this.generationNumber.set(this.generationNumber.get()+1);
-        Matrix<S> nextStates = this.nextGenerationMatrix();
-        for (Coordinate coordinate : this.grid.coordinates()) {
-            this.at(coordinate).set(nextStates.get(coordinate));
-        }
+        //TODO: à compléter, en utilisant nextGenerationMatrix()
     }
 
     /** Computes the {@link Matrix} of states obtained after a single step of updates
@@ -75,27 +74,23 @@ public class CellularAutomatonSimulation<S extends State<S>>
      * @return the states of each cell after one generation
      */
     private Matrix<S> nextGenerationMatrix() {
-        return new Matrix<>(
-                this.grid.width(),
-                this.grid.height(),
-                new NextGenerationInitializer<>(this)
-        );
+        //TODO: à compléter
+        return null;
     }
     @Override
     public void next(Coordinate coordinate) {
-        S oldState = this.grid.get(coordinate).get();
-        this.at(coordinate).set(oldState.next());
+        //TODO: à compléter
     }
 
     @Override
     public void copy(Coordinate source, Coordinate destination) {
-        S state = this.at(source).get();
-        this.at(destination).set(state);
+        //TODO: à compléter
     }
 
     @Override
     public Color getColor(Coordinate coordinate) {
-        return this.at(coordinate).get().getColor();
+        //TODO: à compléter
+        return null;
     }
 
     @Override
@@ -113,19 +108,13 @@ public class CellularAutomatonSimulation<S extends State<S>>
 
     @Override
     public void clear() {
-        for (Cell<S> cell : this.grid) {
-            cell.set(this.automaton.defaultState());
-        }
-        this.generationNumber.set(0);
+        //TODO: à compléter (penser à remettre le nombre de génération à 0)
     }
 
 
     @Override
     public void reset() {
-        for (Cell<S> cell : this.grid) {
-            cell.set(this.automaton.randomState(generator));
-        }
-        this.generationNumber.set(0);
+        //TODO: à compléter (penser à remettre le nombre de génération à 0)
     }
 
     @Override

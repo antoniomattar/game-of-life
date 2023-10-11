@@ -16,7 +16,8 @@ public record Coordinate(int x, int y) {
      * @return A new {@link Coordinate} instance.
      */
     public static Coordinate of(int x, int y) {
-        return new Coordinate(x, y);
+        // TODO: compléter ce fabriquant
+        return null;
     }
 
     /**
@@ -25,7 +26,8 @@ public record Coordinate(int x, int y) {
      * @return The left adjacent {@link Coordinate}.
      */
     public Coordinate left() {
-        return new Coordinate(x - 1, y);
+        // TODO: à compléter
+        return null;
     }
 
     /**
@@ -34,7 +36,8 @@ public record Coordinate(int x, int y) {
      * @return The right adjacent {@link Coordinate}.
      */
     public Coordinate right() {
-        return new Coordinate(x + 1, y);
+        // TODO: à compléter
+        return null;
     }
 
     /**
@@ -43,7 +46,8 @@ public record Coordinate(int x, int y) {
      * @return The above adjacent {@link Coordinate}.
      */
     public Coordinate above() {
-        return new Coordinate(x, y + 1);
+        // TODO: à compléter
+        return null;
     }
 
     /**
@@ -52,7 +56,8 @@ public record Coordinate(int x, int y) {
      * @return The below adjacent {@link Coordinate}.
      */
     public Coordinate below() {
-        return new Coordinate(x, y - 1);
+        // TODO: à compléter
+        return null;
     }
 
     /**
@@ -61,12 +66,8 @@ public record Coordinate(int x, int y) {
      * @return A list of orthogonal neighboring {@link Coordinate}s.
      */
     public List<Coordinate> orthogonalNeighbours() {
-        return List.of(
-                this.right(),
-                this.left(),
-                this.above(),
-                this.below()
-        );
+        // TODO: à compléter
+        return List.of();
     }
 
     /**
@@ -75,12 +76,8 @@ public record Coordinate(int x, int y) {
      * @return A list of diagonal neighboring {@link Coordinate}s.
      */
     public List<Coordinate> diagonalNeighbours() {
-        return List.of(
-                this.right().above(),
-                this.left().above(),
-                this.left().below(),
-                this.right().below()
-        );
+        // TODO: à compléter
+        return List.of();
     }
 
     /**
@@ -89,9 +86,8 @@ public record Coordinate(int x, int y) {
      * @return A list of all neighboring {@link Coordinate}s.
      */
     public List<Coordinate> orthodiagonalNeighbours() {
-        List<Coordinate> neighbours = new ArrayList<>(this.orthogonalNeighbours());
-        neighbours.addAll(this.diagonalNeighbours());
-        return neighbours;
+        // TODO: à compléter
+        return List.of();
     }
 
     @Override

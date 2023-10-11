@@ -51,13 +51,6 @@ public class Controller {
     }
 
 
-    /**
-     * Sets {@link CellularAutomatonSimulation} instance.
-     *
-     * @param simulation {@link CellularAutomatonSimulation} instance
-     * @throws NullPointerException if {@code gameOfLife} is {@code null}
-     */
-
     public void setSimulation(Simulation simulation) {
         this.simulation = requireNonNull(simulation, "game of life is null");
         setGenerationNumberLabelTextProperty();
