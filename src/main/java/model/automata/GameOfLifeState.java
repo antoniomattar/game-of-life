@@ -29,12 +29,11 @@ public enum GameOfLifeState implements State<GameOfLifeState> {
     }
 
     @Override
-    public GameOfLifeState update(List<State<GameOfLifeState>> neighbours) {
+    public GameOfLifeState update(List<GameOfLifeState> neighbours) {
         int countAlive = State.count(ALIVE, neighbours);
-        boolean isAlive =
-                (this == DEAD && 3 == countAlive)
-                || (this == ALIVE && 2 <= countAlive && countAlive <= 3);
-        return isAlive ? ALIVE : DEAD;
+        return (countAlive == 3 || this == ALIVE && countAlive == 2)?
+                 ALIVE:
+                 DEAD;
     }
 
 }

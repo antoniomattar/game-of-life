@@ -29,7 +29,7 @@ public enum BiColorState implements State<BiColorState> {
     }
 
     @Override
-    public BiColorState update(List<State<BiColorState>> neighbours) {
+    public BiColorState update(List<BiColorState> neighbours) {
         int countBlue = State.count(BLUE, neighbours);
         int countRed = State.count(RED, neighbours);
         int countAlive = countBlue + countRed;

@@ -27,7 +27,7 @@ public enum BriansBrainState implements State<BriansBrainState> {
     }
 
     @Override
-    public BriansBrainState update(List<State<BriansBrainState>> neighbours) {
+    public BriansBrainState update(List<BriansBrainState> neighbours) {
         return switch (this) {
             case ON -> DYING;
             case DYING -> OFF;

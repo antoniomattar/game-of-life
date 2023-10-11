@@ -8,7 +8,8 @@ import java.util.List;
  * Represents a state of a cell in a cellular automaton, and the update rules for the cellular
  * automaton.
  *
- * @param <S> The type of state used in the cellular automaton.
+ * @param <S> The type of the state itself, used for reflexivity: if a class {@code SomeState}
+ *          wants to implement this interface, it should implement {@code State<SomeState>}.
  */
 public interface State<S> {
 
@@ -32,7 +33,7 @@ public interface State<S> {
      * @param neighbours A list of neighboring cell states.
      * @return The updated state based on the neighbors.
      */
-    S update(List<State<S>> neighbours);
+    S update(List<S> neighbours);
 
     /**
      * Counts the occurrences of a specific state within a list of neighboring states.

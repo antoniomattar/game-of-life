@@ -25,7 +25,7 @@ public enum SeedsState implements State<SeedsState> {
     }
 
     @Override
-    public SeedsState update(List<State<SeedsState>> neighbours) {
+    public SeedsState update(List<SeedsState> neighbours) {
         return switch (this) {
             case ON -> OFF;
             case OFF -> State.count(ON,neighbours) == 2 ? ON: OFF;
