@@ -26,9 +26,9 @@ class NextGenerationInitializerTest {
     @BeforeEach
     public void prepareSimulation() {
         GameOfLifeState[][] state =
-                { { DEAD, DEAD, ALIVE, DEAD }
+                { { DEAD, DEAD, DEAD, DEAD }
                 , { ALIVE, ALIVE, DEAD, DEAD }
-                , { DEAD, DEAD, DEAD, DEAD }
+                , { DEAD, DEAD, ALIVE, DEAD }
                 };
         for (Coordinate coordinate : this.simulation) {
             this.simulation.at(coordinate).set(state[coordinate.y()][coordinate.x()]);
