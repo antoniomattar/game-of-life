@@ -1,6 +1,6 @@
 package view;
 
-import datastruct.Coordinate;
+import matrix.Coordinate;
 import javafx.scene.input.MouseEvent;
 
 public class FillingMouseListener implements MouseListener {

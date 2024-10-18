@@ -1,14 +1,12 @@
 package model;
 
-import datastruct.Coordinate;
-import datastruct.MatrixInitializer;
-import datastruct.Matrix;
+import matrix.Coordinate;
+import matrix.MatrixInitializer;
+import matrix.ListMatrix;
 import controller.Simulation;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * An initializer for a {@link Matrix} of states, where each state is computed based on the value
+ * An initializer for a {@link ListMatrix} of states, where each state is computed based on the value
  * of its neighbours in a {@link Simulation} of a cellular automaton.
  *
  * @param <S> the type of states in the simulation.

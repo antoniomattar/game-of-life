@@ -1,6 +1,6 @@
 package controller;
 
-import datastruct.Coordinate;
+import matrix.Coordinate;
 import javafx.scene.paint.Color;
 import model.OnChangeListener;
 

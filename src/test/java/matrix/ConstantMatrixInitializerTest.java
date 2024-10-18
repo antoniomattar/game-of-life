@@ -1,4 +1,4 @@
-package datastruct;
+package matrix;
 
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConstantMatrixInitializerTest {
     @Test
     public void testMatrixInitializationWithConstantValue() {
-        Matrix<String> matrix = new Matrix<>(3, 3, new ConstantMatrixInitializer<>("X"));
+        ListMatrix<String> matrix = new ListMatrix<>(3, 3, new ConstantMatrixInitializer<>("X"));
 
         // Test that all cells have the constant value.
         for (int x = 0; x < 3; x++) {
@@ -19,7 +19,7 @@ class ConstantMatrixInitializerTest {
 
     @Test
     public void testMatrixInitializationWithConstantValue2() {
-        Matrix<Integer> matrix = new Matrix<>(3, 5, new ConstantMatrixInitializer<>(12));
+        ListMatrix<Integer> matrix = new ListMatrix<>(3, 5, new ConstantMatrixInitializer<>(12));
 
         // Test that all cells have the constant value.
         for (int x = 0; x < 3; x++) {

@@ -1,6 +1,5 @@
-package datastruct;
+package matrix;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,7 +61,15 @@ public record Coordinate(int x, int y) {
 
     /**
      * Computes and returns a list of orthogonal (adjacent in horizontal or vertical direction) neighbors.
-     *
+     *  | | | |
+     * ---------
+     *  | |X| |
+     * ---------
+     *  |X|O|X|
+     * ---------
+     *  | |X| |
+     * ---------
+     * | | | |
      * @return A list of orthogonal neighboring {@link Coordinate}s.
      */
     public List<Coordinate> orthogonalNeighbours() {
@@ -72,6 +79,15 @@ public record Coordinate(int x, int y) {
 
     /**
      * Computes and returns a list of diagonal (adjacent in diagonal direction) neighbors.
+     *  | | | |
+     * ---------
+     *  |X| |X|
+     * ---------
+     *  | |O| |
+     * ---------
+     *  |X| |X|
+     * ---------
+     * | | | |
      *
      * @return A list of diagonal neighboring {@link Coordinate}s.
      */
@@ -82,6 +98,15 @@ public record Coordinate(int x, int y) {
 
     /**
      * Computes and returns a list of all orthogonal and diagonal neighbors.
+     *      *  | | | |
+     *      * ---------
+     *      *  |X|X|X|
+     *      * ---------
+     *      *  |X|O|X|
+     *      * ---------
+     *      *  |X|X|X|
+     *      * ---------
+     *      * | | | |
      *
      * @return A list of all neighboring {@link Coordinate}s.
      */
@@ -94,4 +119,12 @@ public record Coordinate(int x, int y) {
     public String toString() {
         return "(" + this.x + "," + this.y + ")";
     }
+
+  public Coordinate minus(Coordinate corner) {
+    return new Coordinate(this.x - corner.x, this.y - corner.y);
+  }
+
+  public Coordinate plus(Coordinate corner) {
+      return new Coordinate(this.x + corner.x, this.y + corner.y);
+  }
 }

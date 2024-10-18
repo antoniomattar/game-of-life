@@ -1,6 +1,6 @@
 package model;
 
-import datastruct.Coordinate;
+import matrix.Coordinate;
 import javafx.scene.paint.Color;
 import model.automata.GameOfLifeAutomaton;
 import static model.automata.GameOfLifeState.*;

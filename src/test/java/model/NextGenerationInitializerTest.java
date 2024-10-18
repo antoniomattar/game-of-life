@@ -1,7 +1,6 @@
 package model;
 
-import controller.Simulation;
-import datastruct.Coordinate;
+import matrix.Coordinate;
 import model.automata.GameOfLifeAutomaton;
 import model.automata.GameOfLifeState;
 import org.junit.jupiter.api.BeforeEach;

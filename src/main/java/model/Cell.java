@@ -1,7 +1,5 @@
 package model;
 
-import datastruct.Lens;
-
 import java.util.ArrayList;
 import java.util.List;
 

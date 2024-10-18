@@ -1,7 +1,7 @@
 package view;
 
 import controller.Controller;
-import datastruct.Coordinate;
+import matrix.Coordinate;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;

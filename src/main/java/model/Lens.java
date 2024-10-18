@@ -1,4 +1,4 @@
-package datastruct;
+package model;
 
 /**
  * A lens interface representing a view into a mutable state.

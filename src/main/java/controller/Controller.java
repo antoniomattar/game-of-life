@@ -1,6 +1,6 @@
 package controller;
 
-import datastruct.Coordinate;
+import matrix.Coordinate;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.util.Duration;
-import model.CellularAutomatonSimulation;
 import view.MatrixPane;
 
 import static java.util.Objects.requireNonNull;

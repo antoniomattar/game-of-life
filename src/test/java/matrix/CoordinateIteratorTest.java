@@ -1,4 +1,4 @@
-package datastruct;
+package matrix;
 
 import org.junit.jupiter.api.Test;
 

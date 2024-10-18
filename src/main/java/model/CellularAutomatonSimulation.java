@@ -1,8 +1,8 @@
 package model;
 
 import controller.Simulation;
-import datastruct.Coordinate;
-import datastruct.Matrix;
+import matrix.Coordinate;
+import matrix.ListMatrix;
 import javafx.scene.paint.Color;
 
 import java.util.Iterator;
@@ -18,7 +18,7 @@ import java.util.Random;
 public class CellularAutomatonSimulation<S extends State<S>>
         implements Simulation {
 
-    private final Matrix<Cell<S>> grid;
+    private final ListMatrix<Cell<S>> grid;
     private final Cell<Integer> generationNumber = new Cell<>(0);
     private final CellularAutomaton<S> automaton;
     private final Random generator;
@@ -31,7 +31,7 @@ public class CellularAutomatonSimulation<S extends State<S>>
      */
     public CellularAutomatonSimulation(CellularAutomaton<S> automaton, Random generator) {
         this.automaton = automaton;
-        this.grid = new Matrix<>(
+        this.grid = new ListMatrix<>(
                 automaton.numberOfColumns(),
                 automaton.numberOfRows(),
                 new ConstantCellInitializer<>(automaton.defaultState())
@@ -68,12 +68,12 @@ public class CellularAutomatonSimulation<S extends State<S>>
         //TODO: à compléter, en utilisant nextGenerationMatrix()
     }
 
-    /** Computes the {@link Matrix} of states obtained after a single step of updates
+    /** Computes the {@link ListMatrix} of states obtained after a single step of updates
      * of the simulation.
      *
      * @return the states of each cell after one generation
      */
-    private Matrix<S> nextGenerationMatrix() {
+    private ListMatrix<S> nextGenerationMatrix() {
         //TODO: à compléter
         return null;
     }

@@ -1,11 +1,11 @@
 package model;
 
-import datastruct.Coordinate;
-import datastruct.Matrix;
-import datastruct.MatrixInitializer;
+import matrix.Coordinate;
+import matrix.ListMatrix;
+import matrix.MatrixInitializer;
 
 /**
- *  An initializer for {@link Matrix} of {@link Cell}s, where each cell is initialized to the
+ *  An initializer for {@link ListMatrix} of {@link Cell}s, where each cell is initialized to the
  *  same value.
  *
  * @param <T> the type of content of each cell
