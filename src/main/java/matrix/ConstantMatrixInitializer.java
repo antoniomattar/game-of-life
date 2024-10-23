@@ -3,14 +3,14 @@ package matrix;
 public class ConstantMatrixInitializer<T> implements MatrixInitializer<T> {
 
   // TODO: add instance variables
+  private final T constant;
 
   public ConstantMatrixInitializer(T constant) {
-    // TODO
+    this.constant = constant;
   }
 
     @Override
     public T initialValueAt(Coordinate coordinate) {
-      // TODO
-      return null;
+      return constant;
     }
 }

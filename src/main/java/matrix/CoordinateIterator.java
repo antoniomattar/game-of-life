@@ -15,8 +15,15 @@ class CoordinateIterator implements Iterator<Coordinate> {
      * @param width  The width of the coordinate range.
      * @param height The height of the coordinate range.
      */
+    private final int width;
+    private final int height;
+    private int x;
+    private int y;
     public CoordinateIterator(int width, int height) {
-        // TODO: à compléter
+        this.width = width;
+        this.height = height;
+        this.x = 0;
+        this.y = 0;
     }
 
     /**
@@ -26,7 +33,9 @@ class CoordinateIterator implements Iterator<Coordinate> {
      */
     @Override
     public boolean hasNext() {
-        // TODO: à compléter
+        if (x < width && y < height) {
+            return true;
+        }
         return false;
     }
 
@@ -38,7 +47,15 @@ class CoordinateIterator implements Iterator<Coordinate> {
      */
     @Override
     public Coordinate next() {
-        // TODO: à compléter
-        return null;
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        Coordinate coordinate = Coordinate.of(x, y);
+        x++;
+        if (x == width) {
+            x = 0;
+            y++;
+        }
+        return coordinate;
     }
 }
